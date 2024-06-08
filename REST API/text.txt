@@ -1,0 +1,6 @@
+in monggose we have Schema 
+
+    Schema -  Define the structure
+    Using Model we do CRUD operations 
+
+While connecting mongoose  it returns promise    
