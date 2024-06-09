@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 
-//Connection With mongoose
-mongoose.connect("mongodb://127.0.0.1:27017/My-first-dbs")
-.then(()=>{
-    console.log("MongoDB Connected");
-})
-.catch((err)=>{
-    console.log("Mongo Error", err);
-})
+
 
 //Schema 
 const userSchema = new mongoose.Schema({
