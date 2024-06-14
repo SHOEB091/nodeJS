@@ -26,8 +26,11 @@ await URL.create({
     redirectURL: req.body.url, // Corrected here
     visitHistory:[],
 });
+return res.render('home',{
+    id: shortID,
 
-return res.json({id:shortID});
+})
+//return res.json({id:shortID});
 }
 
 async function handleGetAnalytics(req,res){

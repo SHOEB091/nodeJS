@@ -6,16 +6,43 @@ const URL = require('./models/url');
 
 const urlRoute = require('./routes/url');
 
+const staticRoute = require('./routes/staticRouter');
+
+const path = require('path');
+
 const app = express();
 const PORT = 8001;
 
 connectToMongoDb("mongodb://127.0.0.1:27017/Url_DBS")
 
 //middleware use 
-app.use(express.json()); // Corrected here
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));//to handle form parse data 
+
+
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.set('views',path.resolve("./views"));
+
+//SSR Demo Part 
+/*app.get("/test", async (req, res) => {
+    const allUrls = await URL.find({});
+    return res.render('home',{
+        urls: allUrls,
+    });
+    
+});*/
+
+
+
 app.use('/url',urlRoute);
 
-app.get('/:shortId', async (req, res) => {
+app.use('/',staticRoute);
+
+
+
+app.get('/url/:shortId', async (req, res) => {
     const shortId = req.params.shortId;
 
     const entry = await URL.findOne({ shortId: shortId });
@@ -35,3 +62,6 @@ app.get('/:shortId', async (req, res) => {
 });
 
 app.listen(PORT,()=>console.log(`server Started at Port: ${PORT}`));
+
+
+//To test URl - localhost:8001/ur/urlId

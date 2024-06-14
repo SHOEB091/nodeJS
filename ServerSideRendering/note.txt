@@ -1,0 +1,32 @@
+demo 
+app.get("/test",(req,res)=>{
+    return res.end("<h1> Hey form server</h1>");
+})
+
+ssr meand out html page is render by our server
+we can write whole html in this route 
+
+to solve this problem we use some (templating Engines )
+1. EJS 
+2. PUG 
+3. handlebars 
+
+app.get("/test", async (req, res) => {
+    const allUrls = await URL.find({});
+    return res.end(`
+    <html>
+    <head>  </head>
+    <body>
+
+    <ol>
+        ${allUrls.map(url => `<li>${url.shortId} - ${url.redirectURL} - ${url.visitHistory.length}</li>`).join('')}
+    </ol>
+
+    </body>
+  
+    </html>
+    `);
+});
+
+
+
