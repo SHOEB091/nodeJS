@@ -1,0 +1,28 @@
+AuthenticationPatterns
+
+1. Statefull Stateless
+Which maintains Which has no
+state or data or state
+server side
+
+2.Stateless
+Which has no
+state
+
+How to Transfer Uid?
+
+1.cookies 
+2.response
+3.headers
+
+Express Flow 
+Client ---------->>>(AUTH MIDDLEWARE)----------->>>>(ENDPInt route)
+                   Checks for cookies value
+                   uid , if valid calls next()
+                   else rejects the request
+
+
+npm i uuid  // package manager for generating cookies for uuid 
+
+
+
