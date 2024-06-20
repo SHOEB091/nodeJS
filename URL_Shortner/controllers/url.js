@@ -25,6 +25,7 @@ await URL.create({
     shortId: shortID,
     redirectURL: req.body.url, // Corrected here
     visitHistory:[],
+    createdBy: req.user._id,
 });
 return res.render('home',{
     id: shortID,

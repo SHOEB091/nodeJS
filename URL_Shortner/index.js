@@ -29,6 +29,8 @@ app.use(express.urlencoded({extended:false}));//to handle form parse data
 app.use(cookieParser());
 
 
+
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views',path.resolve("./views"));

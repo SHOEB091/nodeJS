@@ -5,23 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
     <style>
-        *{
-            margin:0;
-            padding:0;
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
+        }
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        form label {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        form input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        form button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <h1>Signup Form </h1>
-    <form action="/user" method = "post">
-        <label>Full Name :</label>
-        <input type="text" placeholder="example" required name = "name" />
-        <label>Email :</label>
-        <input type="text" placeholder="ex.gmail.com" required name = "email" />
-        <label>Password :</label>
-        <input type="text" placeholder="1234" required name = "password" />
-
+    <h1>Signup Form</h1>
+    <form action="/user" method="post">
+        <label>Full Name:</label>
+        <input type="text" placeholder="example" required name="name" />
+        <label>Email:</label>
+        <input type="email" placeholder="example@gmail.com" required name="email" />
+        <label>Password:</label>
+        <input type="password" placeholder="1234" required name="password" />
         <button type="submit">Signup</button>
     </form>
 </body>
