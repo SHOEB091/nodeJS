@@ -1,29 +1,27 @@
-const { set } = require("mongoose");
-const {getUser } = require("../service/auth");
+const { getUser } = require("../service/auth");
 
-async function restrictToLoggedinUserOny(req, res, next) {
-    const userUid = req.cookies?.uid;
-    if (!userUid) {
-        return res.redirect('/login');
-    }
-    const user =getUser(userUid); 
+async function restrictToLoggedinUserOnly(req, res, next) {
+  const userUid = req.cookies?.uid;
 
-    if (!user) return res.redirect("/login");
+  if (!userUid) return res.redirect("/login");
+  const user = getUser(userUid);
 
-    req.user = user;
-    next();
+  if (!user) return res.redirect("/login");
+
+  req.user = user;
+  next();
 }
 
-async function checkAuth(req,res,next) {
-    const userUid = req.cookies?.uid;
-   
-    const user =getUser(userUid); 
+async function checkAuth(req, res, next) {
+  const userUid = req.cookies?.uid;
 
-    req.user = user;
-    next();
+  const user = getUser(userUid);
+
+  req.user = user;
+  next();
 }
 
 module.exports = {
-    restrictToLoggedinUserOny,
-    checkAuth,
-}
+  restrictToLoggedinUserOnly,
+  checkAuth,
+};

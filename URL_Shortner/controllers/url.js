@@ -1,49 +1,33 @@
-const URL = require('../models/url');
+const shortid = require("shortid");
+const URL = require("../models/url");
 
-let nanoid;
+async function handleGenerateNewShortURL(req, res) {
+  const body = req.body;
+  if (!body.url) return res.status(400).json({ error: "url is required" });
+  const shortID = shortid();
 
-// Import nanoid asynchronously
-import('nanoid').then((nano) => {
-    nanoid = nano.nanoid;
-}).catch((error) => {
-    console.error('Failed to load nanoid:', error);
-});
-
-async function handlegenerateNewShortUrl(req, res){
-    // Ensure nanoid is loaded
-if (!nanoid) {
-    return res.status(500).json({ error: 'Failed to load nanoid' });
-}
-
-// Check if URL is provided
-if (!req.body.url) { // Corrected here
-    return res.status(400).json({ error: 'No URL provided' });
-}
-
-const shortID = nanoid(8);
-await URL.create({
+  await URL.create({
     shortId: shortID,
-    redirectURL: req.body.url, // Corrected here
-    visitHistory:[],
+    redirectURL: body.url,
+    visitHistory: [],
     createdBy: req.user._id,
-});
-return res.render('home',{
-    id: shortID,
+  });
 
-})
-//return res.json({id:shortID});
+  return res.render("home", {
+    id: shortID,
+  });
 }
 
-async function handleGetAnalytics(req,res){
-    const shortId = req.params.shortId;
-    const result = await URL.findOne({shortId});
-    return res.json({
-        totalClicks: result.visitHistory.length,
-        analytics: result.visitHistory,
-    });
+async function handleGetAnalytics(req, res) {
+  const shortId = req.params.shortId;
+  const result = await URL.findOne({ shortId });
+  return res.json({
+    totalClicks: result.visitHistory.length,
+    analytics: result.visitHistory,
+  });
 }
 
 module.exports = {
-    handlegenerateNewShortUrl,
-    handleGetAnalytics,
-}
+  handleGenerateNewShortURL,
+  handleGetAnalytics,
+};

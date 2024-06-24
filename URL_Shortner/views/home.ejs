@@ -1,129 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+  <head>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-        .formstyle {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
-        }
-        .formstyle label {
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-        .formstyle input {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-        .formstyle button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4caf50;
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .formstyle button:hover {
-            background-color: #45a049;
-        }
-        .generateUrl p {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        th {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        tbody tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-    </style>
-</head>
-<body>
-    <h1>URL Shortener</h1>
-    
-    <div class="generateUrl">
-        <% if (locals.id) { %>
-            <p>URL generated: http://localhost:8001/url/<%=id%></p>
-        <% } %>
-    </div>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-    <div class="formstyle">
-        <form method="POST" action="/url">
-            <label>Enter your Original URL</label>
-            <input type="text" name="url" placeholder="https://example.com" />
-            <button type="submit">Generate</button>
-        </form>
-    </div>
+      h1 {
+        color: #333;
+        margin-top: 50px;
+      }
+
+      p {
+        background-color: #e0f7fa;
+        border: 1px solid #b2ebf2;
+        padding: 15px;
+        border-radius: 5px;
+        color: #00796b;
+        width: fit-content;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      form {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+      }
+
+      label {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #00796b;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #004d40;
+      }
+
+      table {
+        margin-top: 30px;
+        width: 80%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #00796b;
+        color: #fff;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      tbody tr {
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      tbody tr:hover {
+        background-color: #f1f1f1;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+  <body>
+    <h1>URL Shortener</h1>
+    <% if (locals.id) { %>
+    <p>URL Generated: http://localhost:8001/url/<%= id %></p>
+    <% } %>
 
     <div>
-        <% if (locals.urls) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>S. No</th>
-                        <th>Short ID</th>
-                        <th>Redirects</th>
-                        <th>Clicks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% urls.forEach((url, index) => { %>
-                        <tr>
-                            <td><%= index + 1 %></td>
-                            <td><%= url.shortId %></td>
-                            <td><%= url.redirectURL %></td>
-                            <td><%= url.visitHistory.length %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } %>
+      <form method="POST" action="/url">
+        <label>Enter Your Original URL</label>
+        <input type="text" name="url" placeholder="https://example.com" />
+        <button type="submit">Generate</button>
+      </form>
     </div>
-</body>
+    <div style="margin-top: 30px">
+      <% if (locals.urls) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>S. No</th>
+            <th>ShortID</th>
+            <th>Redirect</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% urls.forEach((url, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= url.shortId %></td>
+            <td><%= url.redirectURL %></td>
+            <td><%= url.visitHistory.length %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </body>
 </html>

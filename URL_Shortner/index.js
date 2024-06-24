@@ -1,86 +1,47 @@
-const express = require('express');
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const { connectToMongoDB } = require("./connect");
+const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
+const URL = require("./models/url");
 
-const {connectToMongoDb}= require("./connect");
-
-const {restrictToLoggedinUserOny} = require('./middlewares/auth')
-
-const URL = require('./models/url');
-
-const cookieParser = require('cookie-parser');
-
-
-const urlRoute = require('./routes/url');
-
-const staticRoute = require('./routes/staticRouter');
-const userRoute = require('./routes/user')
-
-
-
-const path = require('path');
+const urlRoute = require("./routes/url");
+const staticRoute = require("./routes/staticRouter");
+const userRoute = require("./routes/user");
 
 const app = express();
 const PORT = 8001;
 
-connectToMongoDb("mongodb://127.0.0.1:27017/Url_DBS")
+connectToMongoDB(process.env.MONGODB ?? "mongodb://localhost:27017/short-url").then(() =>
+  console.log("Mongodb connected")
+);
 
-//middleware use 
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
+
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));//to handle form parse data 
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use("/url", restrictToLoggedinUserOnly, urlRoute);
+app.use("/user", userRoute);
+app.use("/", checkAuth, staticRoute);
 
-
-
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-app.set('views',path.resolve("./views"));
-
-//SSR Demo Part 
-/*app.get("/test", async (req, res) => {
-    const allUrls = await URL.find({});
-    return res.render('home',{
-        urls: allUrls,
-    });
-    
-});*/
-
-
-
-app.use('/url',restrictToLoggedinUserOny,urlRoute);
-
-app.use('/',staticRoute);
-
-app.use('/user',userRoute);
-
-
-
-
-app.get('/url/:shortId', async (req, res) => {
-    const shortId = req.params.shortId;
-
-    const entry = await URL.findOne({ shortId: shortId });
-
-    if (entry) {
-        // If you want to update the entry, you should use findOneAndUpdate
-        const updatedEntry = await URL.findOneAndUpdate(
-            { shortId: shortId },
-            { $push: { visitHistory: new Date() } }, // Assuming visitHistory is an array of dates
-            { new: true } // This option returns the updated document
-        );
-
-        res.redirect(updatedEntry.redirectURL);
-    } else {
-        res.status(404).send('URL not found');
+app.get("/url/:shortId", async (req, res) => {
+  const shortId = req.params.shortId;
+  const entry = await URL.findOneAndUpdate(
+    {
+      shortId,
+    },
+    {
+      $push: {
+        visitHistory: {
+          timestamp: Date.now(),
+        },
+      },
     }
+  );
+  res.redirect(entry.redirectURL);
 });
 
-
-
-
-
-
-
-app.listen(PORT,()=>console.log(`server Started at Port: ${PORT}`));
-
-
-//To test URl - localhost:8001/ur/urlId
+app.listen(PORT, () => console.log(`Server Started at PORT:${PORT}`));
