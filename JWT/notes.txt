@@ -1,0 +1,5 @@
+if we get session uid so we stamped that id so that no one can  change that 
+we put payLoad in a state and stamped that so no one cna change it 
+
+we remove state 
+make user token and put user data and id in it 
