@@ -1,0 +1,15 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "this is the discord bot and i represnet it as a backed project ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "author": "shoeb",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  }
+}
