@@ -25,4 +25,4 @@ client.on("interactionCreate",interaction =>{
     interaction.reply("Pong!!");
 })
 
-client.login("MTI1NjY5NjAwOTE5MTMyOTg1Mg.GTAQUi.mdflCNtylxwKeEAVy9g887vVvp7V6aHi8cNmZ4") 
+client.login("") 
