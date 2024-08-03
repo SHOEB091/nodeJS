@@ -4,8 +4,17 @@ const multer = require('multer');
 const app = express();
 const PORT = 8000;
 
-const upload = multer({dest:"uploads/"});
-
+//const upload = multer({dest:"uploads/"});
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      return cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      return cb(null, `${Date.now()}-${file.originalname}` );
+    }
+  });
+  
+  const upload = multer({ storage: storage })
 
 app.set("view engine","ejs");
 app.set("views",path.resolve("./views"));
