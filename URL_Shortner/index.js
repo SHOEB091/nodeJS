@@ -2,9 +2,8 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const { connectToMongoDB } = require("./connect");
-const { checkForAuthentication,restrictTo } = require("./middlewares/auth");
+const { checkForAuthentication, restrictTo } = require("./middlewares/auth");
 const URL = require("./models/url");
-
 
 const urlRoute = require("./routes/url");
 const staticRoute = require("./routes/staticRouter");
@@ -26,9 +25,9 @@ app.use(cookieParser());
 
 app.use(checkForAuthentication);
 
-app.use("/url", restrictTo(['NORMAL','ADMIN']),userRoute);
+app.use("/url", restrictTo(['NORMAL', 'ADMIN']), urlRoute); // Corrected to use urlRoute
 app.use("/user", userRoute);
-app.use("/",staticRoute);
+app.use("/", staticRoute);
 
 app.get("/url/:shortId", async (req, res) => {
   const shortId = req.params.shortId;
@@ -44,7 +43,11 @@ app.get("/url/:shortId", async (req, res) => {
       },
     }
   );
-  res.redirect(entry.redirectURL);
+  if (entry) {
+    res.redirect(entry.redirectURL);
+  } else {
+    res.status(404).send('URL not found');
+  }
 });
 
 app.listen(PORT, () => console.log(`Server Started at PORT:${PORT}`));
