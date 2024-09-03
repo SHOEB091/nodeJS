@@ -1,10 +1,12 @@
+require("dotenv").config();
+
 const express= require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 const Blog = require("./models/blog");
 
 const userRoute  = require('./routes/user');
@@ -16,8 +18,9 @@ const checkForAuthenticationCookie = require('./middlewares/authentication');
 // Set strictQuery option
 mongoose.set('strictQuery', true); // or false, depending on your preference
 
+//mongodb://localhost:27017/blogify
 mongoose
-    .connect('mongodb://localhost:27017/blogify')
+    .connect(process.env.MONGO_URL)
     .then((e) => {
         console.log("Connected to the database");
     })
@@ -30,7 +33,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));//it is used to handle form data 
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie('token'));
+
 app.use(express.static(path.resolve("./public")));
+
 
 
 /*app.get('/', (req, res) => {
