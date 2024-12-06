@@ -18,10 +18,10 @@ function checkForAuthentication(req, res, next) {
 
 function restrictTo(roles) {
   return function(req, res, next) {
-    if (!req.user) return res.redirect("/login"); // Fixed typo here from 'reditect' to 'redirect'
+    if (!req.user) return res.redirect("/login"); 
 
-    if (!roles.includes(req.user.role)) { // Fixed typo here from 'icludes' to 'includes'
-      return res.end("Unauthorized"); // Changed "UnAuthorized" to "Unauthorized" for consistency
+    if (!roles.includes(req.user.role)) { 
+      return res.end("Unauthorized"); 
     }
     return next();
   }
